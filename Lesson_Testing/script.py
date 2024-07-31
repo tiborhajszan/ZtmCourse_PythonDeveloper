@@ -1,4 +1,4 @@
-### Course: Python Developer (Zero to Mastery)
+### Course: Zero to mastery Academy | Python Developer
 ### Section: Testing in Python
 ### script.py: module to be tested
 
