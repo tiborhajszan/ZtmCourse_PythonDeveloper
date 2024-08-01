@@ -9,22 +9,29 @@ import script
 ### unit test class
 class TestScript(unittest.TestCase):
 
-    ### test method 1: testing script > simple function
+    ### test 1: testing script > simple function > no input
     def test1_simpleFunction(self):
         test_result = script.simpleFunction()
         self.assertEqual(test_result, 5)
     
-    ### test method 2: testing script > simple function
+    ### test 2: testing script > simple function > None input
     def test2_simpleFunction(self):
+        test_param = None
+        test_result = script.simpleFunction(aNumber=test_param)
+        self.assertEqual(test_result, 5)
+    
+    ### test 3: testing script > simple function > string input
+    def test3_simpleFunction(self):
         test_param = "pityu"
         test_result = script.simpleFunction(aNumber=test_param)
         self.assertEqual(test_result, 5)
 
-    ### test method 3: testing script > simple function
-    def test3_simpleFunction(self):
-        test_param = 10
+    ### test 4: testing script > simple function > int input
+    def test4_simpleFunction(self):
+        test_param = -10
         test_result = script.simpleFunction(aNumber=test_param)
-        self.assertEqual(test_result, 15)
+        self.assertEqual(test_result, -5)
 
 ### running tests
-unittest.main()
+if __name__ == "__main__":
+    unittest.main()
