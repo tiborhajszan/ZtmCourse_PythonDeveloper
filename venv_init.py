@@ -1,1 +1,1 @@
-print("This is a dummy file used to activate the virtual environment.")
+print("Dummy file for activating the Python Virtual Environment.")

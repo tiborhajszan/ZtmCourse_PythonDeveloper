@@ -1,6 +1,6 @@
 ### Course: Zero to Mastery Academy | Python Developer
 ### Section: Testing in Python
-### test1.py: testing script.py module
+### test1_script.py: testing script.py module
 
 ### imports
 import unittest
