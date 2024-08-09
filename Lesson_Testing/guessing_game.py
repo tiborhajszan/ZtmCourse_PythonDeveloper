@@ -5,29 +5,55 @@
 ### imports
 import random
 
-### integer verification function
+### integer verification function --------------------------------------------------------------------------------------
 def verifyInteger(aInput=str()) -> bool:
-    # asserting argument datatypes
+    """
+    Verifies if the provided input is a valid integer.
+
+    Args:
+        aInput (str): Input to verify. Defaults to an empty string if not provided or not string type.
+
+    Returns:
+        bool: True if the input is a valid integer, otherwise False.
+    """
+
+    ### asserting argument datatype
     if type(aInput) is not str: aInput = str()
-    # function main logic
+
+    ### function main logic
     aInput = aInput.lstrip("-")
     if not aInput.isdecimal():
         print("Hey bozo, I expect an integer...")
         return False
-    else: return True
+    else:
+        return True
 
-### range verification function
-def verifyRange(aNumber=int(), aStart=int(), aStop=int()) -> bool:
-    # asserting argument datatypes
+
+### range verification function ----------------------------------------------------------------------------------------
+def verifyRange(aNumber=int(), aLow=int(), aHigh=int()) -> bool:
+    """
+    Verifies if a given number is within a specified range.
+
+    Args:
+        aNumber (int): Number to verify. Defaults to 0 if not an integer.
+        aLow (int): Low boundary of the range. Defaults to 0 if not an integer.
+        aHigh (int): High boundary of the range. Defaults to 0 if not an integer.
+
+    Returns:
+        bool: True if the number is within the range [aLow, aHigh], otherwise False.
+    """
+
+    ### asserting argument datatypes
     if type(aNumber) is not int: aNumber = int()
-    if type(aStart) is not int: aStart = int()
-    if type(aStop) is not int: aStop = int()
-    # function main logic
-    if aNumber < aStart \
-    or aStop < aNumber:
+    if type(aLow) is not int: aLow = int()
+    if type(aHigh) is not int: aHigh = int()
+
+    ### function main logic
+    if aNumber < aLow or aHigh < aNumber:
         print("Hey bozo, you are not figuring the range correctly...")
         return False
-    else: return True
+    else:
+        return True
 
 ### guess evaluation function
 def guessEval(aGuess=int(), aSecret=int()) -> bool:
@@ -42,23 +68,45 @@ def guessEval(aGuess=int(), aSecret=int()) -> bool:
         print("Guess what: You found me out!")
         return True
 
-### game logic
+### function obtaining guessing range low ------------------------------------------------------------------------------
+def rangeLow() -> int:
+    """
+    Prompts the user to enter a valid integer for the guessing range low.
+    Continues prompting until a valid integer is provided.
+
+    Returns:
+        rRange_low (int): Valid integer provided by the user as the range low.
+    """
+    while True:
+        rRange_low = input("Guessing range low (must be an integer): ")
+        if not verifyInteger(aInput=rRange_low): continue
+        return int(rRange_low)
+
+### function obtaining guessing range high -----------------------------------------------------------------------------
+def rangeHigh(aLow=int()) -> int:
+    """
+    Prompts the user to enter a valid integer for the guessing range high.
+    Ensures that the high value is larger than the low value.
+
+    Args:
+        aLow (int): Lower bound of the guessing range.
+
+    Returns:
+        rRange_high (int): Valid integer provided by the user as the range high.
+    """
+    while True:
+        rRange_high = input("Guessing range high (must be an integer): ")
+        if not verifyInteger(aInput=rRange_high): continue
+        rRange_high = int(rRange_high)
+        if not verifyRange(aNumber=rRange_high, aLow=aLow, aHigh=rRange_high): continue
+        return rRange_high
+
+
+
+### game main logic
 if __name__ == "__main__":
-
-    # obtaining range start
-    while True:
-        range_start = input("Guessing range start (must be an integer): ")
-        if not verifyInteger(aInput=range_start): continue
-        range_start = int(range_start)
-        break
-
-    # obtaining range stop
-    while True:
-        range_stop = input("Guessing range stop (must be an integer): ")
-        if not verifyInteger(aInput=range_stop): continue
-        range_stop = int(range_stop)
-        if not verifyRange(aNumber=range_stop, aStart=range_start, aStop=range_stop): continue
-        break
+    range_low = rangeLow()
+    range_high = rangeHigh(aLow=range_low)
 
     # setting secret number
     secret_number = random.randint(range_start, range_stop)

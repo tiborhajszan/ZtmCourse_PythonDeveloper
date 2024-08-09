@@ -1,27 +1,42 @@
-# Testing Guess Evaluation Function
+### Course: Zero to Mastery Academy | Python Developer
+### Section: Testing in Python
+### test_guessingGame.py: testing guessing_game.py module
 
-# imports
+### imports
 import unittest
-from To_Be_Sorted.GuessingGame import func_guessEval
+from guessing_game import verifyInteger
 
-# tester class
-class EvalTest(unittest.TestCase):
-    def test_none(self):
-        test_result = func_guessEval("", 5)
-        self.assertFalse(test_result)
-    def test_intno(self):
-        test_result = func_guessEval("0", 5)
-        self.assertFalse(test_result)
-    def test_intyes(self):
-        test_result = func_guessEval("5", 5)
-        self.assertTrue(test_result)
-    def test_float(self):
-        test_result = func_guessEval("5.14", 5)
-        self.assertFalse(test_result)
-    def test_str(self):
-        test_result = func_guessEval("gibberish", 5)
-        self.assertFalse(test_result)
+### unittest class -----------------------------------------------------------------------------------------------------
+class TestVerifyInteger(unittest.TestCase):
+    """Tests guessing_game.verifyInteger function."""
 
-# running tests
-if __name__ == "__main__":
+    def test_valid_integer_positive(self):
+        """Test with a valid positive integer as a string"""
+        self.assertTrue(verifyInteger("123"))
+
+    def test_valid_integer_negative(self):
+        """Test with a valid negative integer as a string"""
+        self.assertTrue(verifyInteger("-456"))
+
+    def test_invalid_integer_with_letters(self):
+        """Test with a string containing letters"""
+        self.assertFalse(verifyInteger("12abc"))
+
+    def test_invalid_integer_with_special_characters(self):
+        """Test with a string containing special characters"""
+        self.assertFalse(verifyInteger("!@#"))
+
+    def test_empty_string(self):
+        """Test with an empty string"""
+        self.assertFalse(verifyInteger(""))
+
+    def test_non_string_input(self):
+        """Test with a non-string input"""
+        self.assertFalse(verifyInteger(123))
+
+    def test_string_with_space(self):
+        """Test with a string containing space"""
+        self.assertFalse(verifyInteger("123 "))
+
+if __name__ == '__main__':
     unittest.main()
