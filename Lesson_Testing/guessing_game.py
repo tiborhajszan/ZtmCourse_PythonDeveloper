@@ -23,34 +23,34 @@ def verifyInteger(aInput=str()) -> bool:
     ### function main logic
     aInput = aInput.lstrip("-")
     if not aInput.isdecimal():
-        print("Hey bozo, I expect an integer...")
+        print("The provided input is not an integer...")
         return False
     else:
         return True
 
 
 ### range verification function ----------------------------------------------------------------------------------------
-def verifyRange(aNumber=int(), aLow=int(), aHigh=int()) -> bool:
+def verifyRange(aInput=int(), aLow=int(), aHigh=int()) -> bool:
     """
-    Verifies if a given number is within a specified range.
+    Verifies if the provided input is within a specified range.
 
     Args:
-        aNumber (int): Number to verify. Defaults to 0 if not an integer.
-        aLow (int): Low boundary of the range. Defaults to 0 if not an integer.
-        aHigh (int): High boundary of the range. Defaults to 0 if not an integer.
+        aInput (int): Input to verify. Defaults to 0 if not provided or not integer type.
+        aLow (int): Low boundary of the range. Defaults to 0 if not provided or not integer type.
+        aHigh (int): High boundary of the range. Defaults to 0 if not provided or not integer type.
 
     Returns:
-        bool: True if the number is within the range [aLow, aHigh], otherwise False.
+        bool: True if the input is within the range [aLow, aHigh], otherwise False.
     """
 
     ### asserting argument datatypes
-    if type(aNumber) is not int: aNumber = int()
+    if type(aInput) is not int: aInput = int()
     if type(aLow) is not int: aLow = int()
     if type(aHigh) is not int: aHigh = int()
 
     ### function main logic
-    if aNumber < aLow or aHigh < aNumber:
-        print("Hey bozo, you are not figuring the range correctly...")
+    if aInput < aLow or aHigh < aInput:
+        print("The provided input is outside the expected range...")
         return False
     else:
         return True
