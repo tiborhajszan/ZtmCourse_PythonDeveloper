@@ -55,6 +55,23 @@ def verifyRange(aInput=int(), aLow=int(), aHigh=int()) -> bool:
     else:
         return True
 
+### function obtaining guessing range low ------------------------------------------------------------------------------
+def rangeLow() -> int:
+    """
+    Prompts the user to enter a valid integer for the guessing range low.
+    Continues prompting until a valid integer is provided.
+
+    Returns:
+        rRange_low (int): Valid integer provided by the user as the range low.
+    """
+
+    ### function main logic
+    while True:
+        rRange_low = input("Guessing range low (must be an integer): ")
+        if not verifyInteger(aInput=rRange_low): continue
+        return int(rRange_low)
+
+
 ### guess evaluation function
 def guessEval(aGuess=int(), aSecret=int()) -> bool:
     # asserting argument datatypes
@@ -67,20 +84,6 @@ def guessEval(aGuess=int(), aSecret=int()) -> bool:
     else:
         print("Guess what: You found me out!")
         return True
-
-### function obtaining guessing range low ------------------------------------------------------------------------------
-def rangeLow() -> int:
-    """
-    Prompts the user to enter a valid integer for the guessing range low.
-    Continues prompting until a valid integer is provided.
-
-    Returns:
-        rRange_low (int): Valid integer provided by the user as the range low.
-    """
-    while True:
-        rRange_low = input("Guessing range low (must be an integer): ")
-        if not verifyInteger(aInput=rRange_low): continue
-        return int(rRange_low)
 
 ### function obtaining guessing range high -----------------------------------------------------------------------------
 def rangeHigh(aLow=int()) -> int:
