@@ -4,39 +4,51 @@
 
 ### imports
 import unittest
-from guessing_game import verifyInteger, verifyRange
+from unittest import mock
+from guessing_game import verifyInteger, verifyRange, rangeLow
 
-### unittest class -----------------------------------------------------------------------------------------------------
+### testing guessing_game.verifyInteger() ------------------------------------------------------------------------------
 class TestVerifyInteger(unittest.TestCase):
-    """Tests guessing_game.verifyInteger function."""
 
-    def test_valid_integer_positive(self):
-        """Test with a valid positive integer as a string"""
-        self.assertTrue(verifyInteger("123"))
-
-    def test_valid_integer_negative(self):
-        """Test with a valid negative integer as a string"""
-        self.assertTrue(verifyInteger("-456"))
-
-    def test_invalid_integer_with_letters(self):
-        """Test with a string containing letters"""
-        self.assertFalse(verifyInteger("12abc"))
-
-    def test_invalid_integer_with_special_characters(self):
-        """Test with a string containing special characters"""
-        self.assertFalse(verifyInteger("!@#"))
-
-    def test_empty_string(self):
-        """Test with an empty string"""
-        self.assertFalse(verifyInteger(""))
-
+    ### test the function with the default argument (empty string)
+    def test_default_argument(self):
+        self.assertFalse(verifyInteger())
+    
+    ### test when the input is not a string (defaults to empty string)
     def test_non_string_input(self):
-        """Test with a non-string input"""
-        self.assertFalse(verifyInteger(123))
+        self.assertFalse(verifyInteger(789))
+    
+    ### test when the input is a string with only a negative sign (strips to empty string)
+    def test_negative_sign_only(self):
+        self.assertFalse(verifyInteger("-"))
+    
+    ### test when the input is an empty string (not decimal string)
+    def test_empty_string(self):
+        self.assertFalse(verifyInteger(""))
+    
+    ### test when the input is a string with spaces (not decimal string)
+    def test_spaces_in_input(self):
+        self.assertFalse(verifyInteger(" 123 "))
+    
+    ### test when the input contains non-numeric characters (not decimal string)
+    def test_invalid_alphanumeric(self):
+        self.assertFalse(verifyInteger("123abc"))
+    
+    ### test when the input is a floating-point number (not decimal string)
+    def test_invalid_float(self):
+        self.assertFalse(verifyInteger("123.45"))
 
-    def test_string_with_space(self):
-        """Test with a string containing space"""
-        self.assertFalse(verifyInteger("123 "))
+    ### test when the input is a valid negative integer
+    def test_valid_negative_integer(self):
+        self.assertTrue(verifyInteger("-456"))
+    
+    ### test when the input is zero
+    def test_valid_zero(self):
+        self.assertTrue(verifyInteger("0"))
+
+    ### test when the input is a valid positive integer
+    def test_valid_positive_integer(self):
+        self.assertTrue(verifyInteger("123"))
 
 ### testing guessing_game.verifyRange() --------------------------------------------------------------------------------
 class TestVerifyRange(unittest.TestCase):
@@ -80,6 +92,34 @@ class TestVerifyRange(unittest.TestCase):
     def test_above_range(self):
         self.assertFalse(verifyRange(11, 1, 10))
         self.assertFalse(verifyRange(100, 1, 10))
+
+### testing guessing_game.rangeLow() -----------------------------------------------------------------------------------
+class TestRangeLow(unittest.TestCase):
+
+    ### test when a negative integer is provided as valid input
+    @mock.patch('builtins.input', return_value='-15')
+    def test_negative_integer_input(self, mock_input):
+        self.assertEqual(rangeLow(), -15)
+    
+    ### test when zero is provided as valid input
+    @mock.patch('builtins.input', return_value='0')
+    def test_zero_input(self, mock_input):
+        self.assertEqual(rangeLow(), 0)
+
+    ### test when a positive integer is provided as valid input
+    @mock.patch('builtins.input', return_value='5')
+    def test_valid_input_first_attempt(self, mock_input):
+        self.assertEqual(rangeLow(), 5)
+
+    ### test when the first input is invalid and the second is valid
+    @mock.patch('builtins.input', side_effect=['abc', '10'])
+    def test_invalid_then_valid_input(self, mock_input):
+        self.assertEqual(rangeLow(), 10)
+
+    ### test when multiple invalid inputs are given before a valid one
+    @mock.patch('builtins.input', side_effect=['abc', '', '7.5', '20'])
+    def test_multiple_invalid_then_valid_input(self, mock_input):
+        self.assertEqual(rangeLow(), 20)
 
 ### running the tests --------------------------------------------------------------------------------------------------
 if __name__ == '__main__':

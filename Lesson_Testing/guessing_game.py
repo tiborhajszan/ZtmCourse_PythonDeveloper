@@ -28,7 +28,6 @@ def verifyInteger(aInput=str()) -> bool:
     else:
         return True
 
-
 ### range verification function ----------------------------------------------------------------------------------------
 def verifyRange(aInput=int(), aLow=int(), aHigh=int()) -> bool:
     """
