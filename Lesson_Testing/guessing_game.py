@@ -61,7 +61,7 @@ def rangeLow() -> int:
     Continues prompting until a valid integer is provided.
 
     Returns:
-        rRange_low (int): Valid integer provided by the user as the range low.
+        rRange_low (int): valid integer provided by user as range low
     """
 
     ### function main logic
@@ -69,6 +69,28 @@ def rangeLow() -> int:
         rRange_low = input("Guessing range low (must be an integer): ")
         if not verifyInteger(aInput=rRange_low): continue
         return int(rRange_low)
+
+### function obtaining guessing range high -----------------------------------------------------------------------------
+def rangeHigh(aLow=int()) -> int:
+    """
+    Prompts the user to enter a valid integer for the guessing range high.
+    Ensures that the range high is larger than the range low.
+
+    Args:
+        aLow (int): lower bound of guessing range
+
+    Returns:
+        rRange_high (int): valid integer provided by user as range high
+    """
+
+    ### function main logic
+    while True:
+        rRange_high = input("Guessing range high (must be an integer): ")
+        if not verifyInteger(aInput=rRange_high): continue
+        rRange_high = int(rRange_high)
+        if not verifyRange(aNumber=rRange_high, aLow=aLow, aHigh=rRange_high): continue
+        return rRange_high
+
 
 
 ### guess evaluation function
@@ -83,26 +105,6 @@ def guessEval(aGuess=int(), aSecret=int()) -> bool:
     else:
         print("Guess what: You found me out!")
         return True
-
-### function obtaining guessing range high -----------------------------------------------------------------------------
-def rangeHigh(aLow=int()) -> int:
-    """
-    Prompts the user to enter a valid integer for the guessing range high.
-    Ensures that the high value is larger than the low value.
-
-    Args:
-        aLow (int): Lower bound of the guessing range.
-
-    Returns:
-        rRange_high (int): Valid integer provided by the user as the range high.
-    """
-    while True:
-        rRange_high = input("Guessing range high (must be an integer): ")
-        if not verifyInteger(aInput=rRange_high): continue
-        rRange_high = int(rRange_high)
-        if not verifyRange(aNumber=rRange_high, aLow=aLow, aHigh=rRange_high): continue
-        return rRange_high
-
 
 
 ### game main logic
