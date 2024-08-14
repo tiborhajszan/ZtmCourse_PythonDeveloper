@@ -5,7 +5,7 @@
 ### imports
 import unittest
 from unittest import mock
-from guessing_game import verifyInteger, verifyRange, rangeLow
+from guessing_game import verifyInteger, verifyRange, rangeLow, rangeHigh
 
 ### testing guessing_game.verifyInteger() ------------------------------------------------------------------------------
 class TestVerifyInteger(unittest.TestCase):
@@ -120,6 +120,44 @@ class TestRangeLow(unittest.TestCase):
     @mock.patch('builtins.input', side_effect=['abc', '', '7.5', '20'])
     def test_multiple_invalid_then_valid_input(self, mock_input):
         self.assertEqual(rangeLow(), 20)
+
+### testing guessing_game.rangeHigh() ----------------------------------------------------------------------------------
+class TestRangeHigh(unittest.TestCase):
+
+    ### test function with default argument (0)
+    @mock.patch('builtins.input', return_value='5')
+    def test_default_low_argument(self, mock_input):
+        self.assertEqual(rangeHigh(), 5)
+
+    ### test noninteger first input (string) and valid second input
+    @mock.patch('builtins.input', side_effect=['notanumber', '30'])
+    def test_invalid_then_valid_input(self, mock_input):
+        self.assertEqual(rangeHigh(aLow=20), 30)
+    
+    ### test multiple invalid inputs and valid last input
+    @mock.patch('builtins.input', side_effect=['abc', '8', '25'])
+    def test_multiple_invalid_then_valid_input(self, mock_input):
+        self.assertEqual(rangeHigh(aLow=10), 25)
+    
+    ### test integer first input lower than range low and valid second input
+    @mock.patch('builtins.input', side_effect=['5', '20'])
+    def test_high_range_lower_than_low(self, mock_input):
+        self.assertEqual(rangeHigh(aLow=10), 20)
+
+    ### test integer input equal to range low
+    @mock.patch('builtins.input', return_value='10')
+    def test_high_range_equal_to_low(self, mock_input):
+        self.assertEqual(rangeHigh(aLow=10), 10)
+
+    ### test integer input greater than range low
+    @mock.patch('builtins.input', return_value='15')
+    def test_valid_high_range(self, mock_input):
+        self.assertEqual(rangeHigh(aLow=10), 15)
+    
+    ### test negative integer input greater than range low
+    @mock.patch('builtins.input', return_value='-5')
+    def test_negative_high_range(self, mock_input):
+        self.assertEqual(rangeHigh(aLow=-10), -5)
 
 ### running the tests --------------------------------------------------------------------------------------------------
 if __name__ == '__main__':

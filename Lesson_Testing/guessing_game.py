@@ -88,7 +88,7 @@ def rangeHigh(aLow=int()) -> int:
         rRange_high = input("Guessing range high (must be an integer): ")
         if not verifyInteger(aInput=rRange_high): continue
         rRange_high = int(rRange_high)
-        if not verifyRange(aNumber=rRange_high, aLow=aLow, aHigh=rRange_high): continue
+        if not verifyRange(aInput=rRange_high, aLow=aLow, aHigh=rRange_high): continue
         return rRange_high
 
 
