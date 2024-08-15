@@ -91,20 +91,32 @@ def rangeHigh(aLow=int()) -> int:
         if not verifyRange(aInput=rRange_high, aLow=aLow, aHigh=rRange_high): continue
         return rRange_high
 
-
-
-### guess evaluation function
+### guess evaluation function ------------------------------------------------------------------------------------------
 def guessEval(aGuess=int(), aSecret=int()) -> bool:
-    # asserting argument datatypes
+    """
+    Evaluates whether a guess matches the secret number.
+
+    Args:
+        aGuess (int): guessed number, defaults to 0 if not provided or not integer type
+        aSecret (int): secret number to be guessed, defaults to 0 if not provided or not integer type
+
+    Returns:
+        bool: True if guess matches secret number, otherwise False.
+    """
+
+    ### asserting argument datatypes
     if type(aGuess) is not int: aGuess = int()
     if type(aSecret) is not int: aSecret = int()
-    # function main logic
-    if aGuess != aSecret:
+
+    ### function main logic
+    if aGuess != aSecret: # wrong guess
         print("Wrong guess: Try again!")
         return False
-    else:
+    else: # correct guess
         print("Guess what: You found me out!")
         return True
+
+########################################################################################################################
 
 
 ### game main logic
