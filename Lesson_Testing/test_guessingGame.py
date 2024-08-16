@@ -5,7 +5,9 @@
 ### imports
 import unittest
 from unittest import mock
-from guessing_game import verifyInteger, verifyRange, rangeLow, rangeHigh
+from guessing_game import verifyInteger, verifyRange
+from guessing_game import rangeLow, rangeHigh
+from guessing_game import guessEval
 
 ### testing guessing_game.verifyInteger() ------------------------------------------------------------------------------
 class TestVerifyInteger(unittest.TestCase):
@@ -159,6 +161,51 @@ class TestRangeHigh(unittest.TestCase):
     def test_negative_high_range(self, mock_input):
         self.assertEqual(rangeHigh(aLow=-10), -5)
 
-### running the tests --------------------------------------------------------------------------------------------------
+### testing guessing_game.guessEval() ----------------------------------------------------------------------------------
+class TestGuessEval(unittest.TestCase):
+
+    ### test default arguments (both 0 > correct guess)
+    @mock.patch('builtins.print')
+    def test_default_arguments(self, mock_print:mock.MagicMock):
+        result = guessEval()
+        mock_print.assert_called_once_with("Guess what: You found me out!")
+        self.assertTrue(expr=result)
+    
+    ### test invalid aGuess (defaults to 0 > wrong guess)
+    @mock.patch('builtins.print')
+    def test_invalid_guess_type(self, mock_print:mock.MagicMock):
+        result = guessEval(aGuess="invalid", aSecret=10)
+        mock_print.assert_called_once_with("Wrong guess: Try again!")
+        self.assertFalse(expr=result)
+    
+    ### test invalid aSecret (defaults to 0 > wrong guess)
+    @mock.patch('builtins.print')
+    def test_invalid_secret_type(self, mock_print:mock.MagicMock):
+        result = guessEval(aGuess=10, aSecret="invalid")
+        mock_print.assert_called_once_with("Wrong guess: Try again!")
+        self.assertFalse(expr=result)
+    
+    ### test both arguments invalid (both defaults to 0 > correct guess)
+    @mock.patch('builtins.print')
+    def test_invalid_argument_types(self, mock_print:mock.MagicMock):
+        result = guessEval(aGuess="invalid", aSecret=[1, 2, 3])
+        mock_print.assert_called_once_with("Guess what: You found me out!")
+        self.assertTrue(expr=result)
+    
+    ### test wrong guess
+    @mock.patch('builtins.print')
+    def test_wrong_guess(self, mock_print:mock.MagicMock):
+        result = guessEval(aGuess=5, aSecret=10)
+        mock_print.assert_called_once_with("Wrong guess: Try again!")
+        self.assertFalse(expr=result)
+
+    ### test correct guess
+    @mock.patch('builtins.print')
+    def test_correct_guess(self, mock_print:mock.MagicMock):
+        result = guessEval(aGuess=10, aSecret=10)
+        mock_print.assert_called_once_with("Guess what: You found me out!")
+        self.assertTrue(expr=result)
+
+### running tests ------------------------------------------------------------------------------------------------------
 if __name__ == '__main__':
     unittest.main()
