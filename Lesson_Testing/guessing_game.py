@@ -116,6 +116,39 @@ def guessEval(aGuess=int(), aSecret=int()) -> bool:
         print("Guess what: You found me out!")
         return True
 
+### guessing cycle function --------------------------------------------------------------------------------------------
+def guessingCycle(tLow=int(), tHigh=int(), tSecret=int()) -> None:
+    """
+    Executes a guessing cycle where the user is prompted to guess a secret number within a specified range.
+
+    Args:
+        tLow (int): low boundary of guessing range, defaults to 0 if not provided
+        tHigh (int): high boundary of guessing range, defaults to 0 if not provided
+        tSecret (int): secret number to be guessed, defaults to 0 if not provided
+
+    Returns:
+        None
+    """
+
+    ### guessing cycle
+    while True:
+        # prompting user for guess
+        user_guess = input("Your guess (must be an integer): ")
+        # guess is not integer > restart cycle
+        if not verifyInteger(aInput=user_guess): continue
+        # converting guess to integer
+        user_guess = int(user_guess)
+        # guess is outside range > restart cycle
+        if not verifyRange(aInput=user_guess, aLow=tLow, aHigh=tHigh): continue
+        # wrong guess > restart cycle
+        if not guessEval(aGuess=user_guess, aSecret=tSecret): continue
+        # correct guess > terminate cycle
+        break
+
+    ### returning
+    return
+
+
 ########################################################################################################################
 
 
