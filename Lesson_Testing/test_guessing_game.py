@@ -1,56 +1,47 @@
 ### Course: Zero to Mastery Academy | Python Developer
 ### Section: Testing in Python
-### test_guessingGame.py: testing guessing_game.py module
+### test_guessing_game.py: testing guessing_game.py module
 
 ### imports
 import unittest
 from unittest import mock
+from unittest.mock import patch
 from guessing_game import verifyInteger, verifyRange
 from guessing_game import rangeLow, rangeHigh
 from guessing_game import guessEval
 
 ### testing guessing_game.verifyInteger() ------------------------------------------------------------------------------
 class TestVerifyInteger(unittest.TestCase):
-
-    ### test the function with the default argument (empty string)
+    
+    # testing default argument ("") > false
     def test_default_argument(self):
         self.assertFalse(verifyInteger())
     
-    ### test when the input is not a string (defaults to empty string)
-    def test_non_string_input(self):
-        self.assertFalse(verifyInteger(789))
+    # testing invalid argument datatypes > false
+    def test_invalid_argument_datatypes(self):
+        self.assertFalse(verifyInteger(aInput=123))
+        self.assertFalse(verifyInteger(aInput=213.45))
+        self.assertFalse(verifyInteger(aInput=[1,2,3]))
     
-    ### test when the input is a string with only a negative sign (strips to empty string)
-    def test_negative_sign_only(self):
-        self.assertFalse(verifyInteger("-"))
+    # testing valid integer arguments > true
+    def test_valid_integers(self):
+        self.assertTrue(verifyInteger(aInput="-123"))
+        self.assertTrue(verifyInteger(aInput="0"))
+        self.assertTrue(verifyInteger(aInput="123"))
     
-    ### test when the input is an empty string (not decimal string)
-    def test_empty_string(self):
-        self.assertFalse(verifyInteger(""))
-    
-    ### test when the input is a string with spaces (not decimal string)
-    def test_spaces_in_input(self):
-        self.assertFalse(verifyInteger(" 123 "))
-    
-    ### test when the input contains non-numeric characters (not decimal string)
-    def test_invalid_alphanumeric(self):
-        self.assertFalse(verifyInteger("123abc"))
-    
-    ### test when the input is a floating-point number (not decimal string)
-    def test_invalid_float(self):
-        self.assertFalse(verifyInteger("123.45"))
+    # testing invalid integer arguments > error message > false
+    @patch('builtins.print')
+    def test_invalid_integers(self, mock_print:mock.MagicMock):
+        for input_val in [" ", "-", "abc123", "123.45", "123<#>", " 123 "]:
+            with self.subTest(input_val=input_val):
+                self.assertFalse(verifyInteger(aInput=input_val))
+                mock_print.assert_called_once_with("The input is not an integer...")
+                mock_print.reset_mock()
 
-    ### test when the input is a valid negative integer
-    def test_valid_negative_integer(self):
-        self.assertTrue(verifyInteger("-456"))
-    
-    ### test when the input is zero
-    def test_valid_zero(self):
-        self.assertTrue(verifyInteger("0"))
+if __name__ == '__main__':
+    unittest.main()
 
-    ### test when the input is a valid positive integer
-    def test_valid_positive_integer(self):
-        self.assertTrue(verifyInteger("123"))
+########################################################################################################################
 
 ### testing guessing_game.verifyRange() --------------------------------------------------------------------------------
 class TestVerifyRange(unittest.TestCase):
