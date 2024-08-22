@@ -11,22 +11,24 @@ def verifyInteger(aInput=str()) -> bool:
     Verifies if the provided input is a valid integer.
 
     Args:
-        aInput (str): Input to verify. Defaults to an empty string if not provided or not string type.
+        aInput (str): input to verify, defaults to empty string if not provided or not string type
 
     Returns:
-        bool: True if the input is a valid integer, otherwise False.
+        bool: True if input is valid integer, otherwise False
     """
 
-    ### asserting argument datatype
+    # aInput not str > defaulting to empty str
     if type(aInput) is not str: aInput = str()
 
-    ### function main logic
-    aInput = aInput.lstrip("-")
-    if not aInput.isdecimal():
-        print("The provided input is not an integer...")
-        return False
-    else:
+    # successful conversion of aInput to int > returning true
+    try:
+        int(aInput)
         return True
+    
+    # conversion failed > displaying error message > returning false
+    except ValueError:
+        print("The input is not an integer...")
+        return False
 
 ### range verification function ----------------------------------------------------------------------------------------
 def verifyRange(aInput=int(), aLow=int(), aHigh=int()) -> bool:
